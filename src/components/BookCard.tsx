@@ -18,8 +18,21 @@ const BookCard = ({ book }: BookCardProps) => {
     }
   };
 
+  const handleClick = () => {
+    if (book.isInteractive && book.interactiveUrl) {
+      window.open(book.interactiveUrl, "_blank");
+    }
+  };
+
   return (
-    <div className="book-card p-4 rounded-lg mystical-shadow h-full flex flex-col">
+    <div
+      className={`book-card p-4 rounded-lg mystical-shadow h-full flex flex-col ${
+        book.isInteractive
+          ? "cursor-pointer hover:scale-105 transition-transform"
+          : ""
+      }`}
+      onClick={handleClick}
+    >
       <div className="aspect-[3/4] mb-4 overflow-hidden rounded-md">
         <img
           src={book.coverImage}
@@ -40,11 +53,20 @@ const BookCard = ({ book }: BookCardProps) => {
 
         <h3 className="font-bold text-lg mb-2 text-card-foreground">
           {book.title}
+          {book.isInteractive && (
+            <span className="ml-2 text-green-400 text-sm">🎮</span>
+          )}
         </h3>
         <p className="text-sm text-muted-foreground mb-2">{book.author}</p>
         <p className="text-sm text-card-foreground/80 flex-1">
           {book.description}
         </p>
+
+        {book.isInteractive && (
+          <div className="mt-2 text-xs text-green-400 font-medium">
+            ← Кликните для игры
+          </div>
+        )}
       </div>
     </div>
   );
